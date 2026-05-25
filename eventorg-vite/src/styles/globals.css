@@ -976,3 +976,170 @@ td .with-avatar { display: flex; align-items: center; gap: 10px; }
   .g-5 { grid-template-columns: repeat(3, 1fr); }
   .g-4 { grid-template-columns: repeat(2, 1fr); }
 }
+
+/* ============ MOBILE RESPONSIVE ============ */
+@media (max-width: 768px) {
+
+  /* Shell: stack vertically, sidebar jadi bottom nav */
+  .app {
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr auto;
+    padding: 0;
+    gap: 0;
+    height: 100dvh;
+  }
+
+  /* Main area full width */
+  .main {
+    border-radius: 0;
+    border: none;
+    grid-template-rows: 56px 1fr;
+    grid-row: 1;
+  }
+
+  /* Sidebar jadi bottom tab bar */
+  .sidebar {
+    grid-row: 2;
+    height: auto;
+    position: fixed;
+    bottom: 0; left: 0; right: 0;
+    flex-direction: row;
+    padding: 8px 12px;
+    background: var(--surface);
+    border-top: 1px solid var(--line);
+    z-index: 100;
+    overflow-x: auto;
+    gap: 4px;
+    box-shadow: 0 -4px 20px rgba(20,24,18,0.06);
+  }
+
+  /* Sembunyikan brand, label nav, sidebar-foot di mobile */
+  .sidebar .brand,
+  .sidebar .nav-label,
+  .sidebar .sidebar-foot { display: none; }
+
+  /* Nav items jadi icon-only horizontal */
+  .sidebar > div:nth-child(2) {
+    display: flex;
+    flex-direction: row;
+    flex: 1;
+    overflow-x: auto;
+    min-height: 0;
+  }
+  .nav-list {
+    flex-direction: row !important;
+    padding: 0 !important;
+    gap: 2px !important;
+  }
+  .nav-item {
+    flex-direction: column;
+    gap: 3px;
+    padding: 6px 10px;
+    border-radius: 10px;
+    font-size: 10px;
+    min-width: 52px;
+    align-items: center;
+  }
+  .nav-item i { font-size: 20px; }
+  .nav-item span { font-size: 9.5px; line-height: 1; }
+  .nav-item .nav-badge { display: none; }
+
+  /* Page padding bottom untuk bottom nav */
+  .page {
+    padding: 16px 16px 80px;
+    overflow-y: auto;
+  }
+
+  /* Topbar simplified */
+  .topbar {
+    padding: 0 14px;
+    gap: 8px;
+  }
+  .search { display: none; }
+  .topbar-spacer { flex: 1; }
+  .user-pill .sub { display: none; }
+  .user-pill { padding: 4px 10px 4px 4px; }
+
+  /* Page head stack */
+  .page-head {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+    margin-bottom: 16px;
+  }
+  .page-head h1 { font-size: 22px; }
+  .page-head .actions { flex-wrap: wrap; gap: 6px; }
+  .page-head .actions .btn-ghost { display: none; }
+
+  /* Grids collapse */
+  .g-2, .g-3, .g-4, .g-5,
+  .g-6-6, .g-7-5 {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* KPI value smaller */
+  .kpi-value { font-size: 28px; }
+
+  /* Kanban scroll horizontal */
+  .kanban {
+    grid-template-columns: repeat(4, 260px);
+    overflow-x: auto;
+    padding-bottom: 8px;
+  }
+
+  /* Chat full column */
+  .chat {
+    grid-template-columns: 1fr;
+    height: auto;
+  }
+  .chat-list { 
+    display: flex;
+    flex-direction: row;
+    overflow-x: auto;
+    border-right: none;
+    border-bottom: 1px solid var(--line);
+    height: auto;
+  }
+  .chat-list .search-mini { display: none; }
+  .chat-room {
+    min-width: 120px;
+    border-bottom: none;
+    border-right: 1px solid var(--line);
+    flex-direction: column;
+    align-items: center;
+    padding: 10px 8px;
+    gap: 4px;
+  }
+  .chat-room .body .last { display: none; }
+  .chat-room .body { text-align: center; }
+  .chat-body { height: 300px; }
+
+  /* Tables scroll horizontal */
+  .card table { display: block; overflow-x: auto; }
+
+  /* Vendor grid 1 col */
+  .vendor-grid { grid-template-columns: 1fr; }
+
+  /* Gallery 2 col */
+  .gallery { grid-template-columns: repeat(2, 1fr); }
+
+  /* Notif panel full width */
+  .notif-panel {
+    left: 12px; right: 12px;
+    width: auto;
+    top: 70px;
+  }
+
+  /* Donut wrap stack */
+  .donut-wrap { flex-direction: column; align-items: flex-start; }
+
+  /* Gantt scroll */
+  .gantt-row { grid-template-columns: 80px 1fr; }
+  .gantt-label { font-size: 11px; }
+}
+
+@media (max-width: 480px) {
+  .page-head h1 { font-size: 19px; }
+  .kpi-value { font-size: 24px; }
+  .btn { padding: 9px 14px; font-size: 12px; }
+}
