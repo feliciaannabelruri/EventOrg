@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { LoginScreen } from '@/components/layout/LoginScreen';
+import { LandingPage } from '@/pages/LandingPage';
 import { NotifPanel } from '@/components/layout/NotifPanel';
 import { Sidebar } from '@/components/layout/Sidebar';
 import { Topbar } from '@/components/layout/Topbar';
@@ -31,7 +31,7 @@ const PAGES: Record<PageId, { title: string; Component: React.FC }> = {
 };
 
 export function App() {
-  const [authed, setAuthed] = useState(true);
+  const [authed, setAuthed] = useState(false);
   const [page, setPage] = useState<PageId>('dashboard');
   const [bellOpen, setBellOpen] = useState(false);
 
@@ -47,7 +47,7 @@ export function App() {
     return () => document.removeEventListener('click', close);
   }, [bellOpen]);
 
-  if (!authed) return <LoginScreen onLogin={() => setAuthed(true)} />;
+  if (!authed) return <LandingPage onLogin={() => setAuthed(true)} />;
 
   const Current = PAGES[page].Component;
 
@@ -64,3 +64,4 @@ export function App() {
     </div>
   );
 }
+
