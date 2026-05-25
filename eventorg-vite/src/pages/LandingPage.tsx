@@ -529,19 +529,17 @@ function AuthCard({ children }: { children: React.ReactNode }) {
 }
 
 // ── Login Screen ───────────────────────────────────────────────
-function LoginScreen({ go }: { go: (s: Screen) => void }) {
+function LoginScreen({ go, onLogin }: { go: (s: Screen) => void; onLogin?: () => void }) {
   const [form, setForm] = useState({ email: '', password: '' });
   const [loading, setLoading] = useState(false);
 
-  const handleLogin = () => {
-    setLoading(true);
-    // simulate — in real app: call API, then go to dashboard
-    setTimeout(() => {
-      setLoading(false);
-      // onLogin(); // call App's onLogin prop instead
-      alert('Login berhasil! (Sambungkan ke onLogin() di App.tsx)');
-    }, 900);
-  };
+ const handleLogin = () => {
+  setLoading(true);
+  setTimeout(() => {
+    setLoading(false);
+    onLogin?.();
+  }, 900);
+};
 
   return (
     <AuthCard>
@@ -994,7 +992,7 @@ export function LandingPage({ onLogin }: { onLogin?: () => void }) {
   return (
     <>
       {screen === 'landing' && <LandingScreen go={setScreen} />}
-      {screen === 'login'   && <LoginScreen   go={setScreen} />}
+      {screen === 'login' && <LoginScreen go={setScreen} onLogin={onLogin} />}
       {screen === 'register' && <RegisterScreen go={setScreen} />}
     </>
   );
