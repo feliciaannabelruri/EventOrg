@@ -286,9 +286,9 @@ a { color: inherit; text-decoration: none; }
 
 /* ============ Page ============ */
 .page {
-  padding: 16px 16px 80px;
-  overflow-y: auto;                 
-  -webkit-overflow-scrolling: touch;
+  overflow-y: auto;
+  padding: 28px 32px 40px;
+  background: var(--surface);
 }
 
 .page-head {
@@ -676,6 +676,7 @@ td .with-avatar { display: flex; align-items: center; gap: 10px; }
   font-weight: 800;
   font-size: 13px;
   color: var(--ink-2);
+  flex-shrink: 0;
 }
 
 /* ============ Vendor ============ */
@@ -951,173 +952,290 @@ td .with-avatar { display: flex; align-items: center; gap: 10px; }
   .g-4 { grid-template-columns: repeat(2, 1fr); }
 }
 
-/* ============ MOBILE (≤768px) — App Shell ============ */
+/* ============================================================
+   MOBILE (≤768px) — Complete rewrite for correct layout
+   ============================================================ */
 @media (max-width: 768px) {
 
+  /* --- App shell: single column, full height --- */
   .app {
-     grid-template-columns: 1fr;
-     grid-template-rows: 1fr;
-    padding: 0;
-    gap: 0;
+    grid-template-columns: 1fr !important;
+    grid-template-rows: 1fr !important;
+    padding: 0 !important;
+    gap: 0 !important;
     height: 100dvh;
-  }
-
-  .main {
-    grid-row: 1;
-    border-radius: 0;
-    border: none;
-    grid-template-rows: 56px 1fr;
-    min-height: 0;
-  }
-
-  .sidebar {
-    grid-row: 2;
-    position: fixed;
-    bottom: 0; left: 0; right: 0;
-    top: auto;
-    height: auto;
-    flex-direction: row;
-    align-items: center;
-    padding: 4px 6px env(safe-area-inset-bottom, 4px);
-    background: var(--surface);
-    border-top: 1px solid var(--line);
-    box-shadow: 0 -4px 20px rgba(20,24,18,0.06);
-    z-index: 100;
+    width: 100vw;
     overflow: hidden;
   }
 
+  /* --- Main: full width, topbar + scrollable page --- */
+  .main {
+    grid-column: 1;
+    grid-row: 1;
+    border-radius: 0;
+    border: none;
+    width: 100vw;
+    display: grid;
+    grid-template-rows: 56px 1fr;
+    min-height: 0;
+    overflow: hidden;
+  }
+
+  /* --- Topbar: slim, always visible --- */
+  .topbar {
+    display: flex !important;
+    align-items: center;
+    padding: 0 14px;
+    gap: 10px;
+    height: 56px;
+    border-bottom: 1px solid var(--line);
+    flex-shrink: 0;
+  }
+  .search { display: none; }
+  .topbar-spacer { flex: 1; }
+  .user-pill .sub { display: none; }
+  .user-pill { padding: 4px 10px 4px 4px; }
+  .icon-btn { width: 34px; height: 34px; }
+
+  /* --- Page: scrollable, padded above bottom nav --- */
+  .page {
+    overflow-y: auto;
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
+    padding: 16px 14px 90px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  /* --- Sidebar becomes fixed bottom tab bar --- */
+  .sidebar {
+    position: fixed !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    top: auto !important;
+    width: 100% !important;
+    height: auto !important;
+    flex-direction: row;
+    align-items: center;
+    padding: 4px 4px env(safe-area-inset-bottom, 4px);
+    background: var(--surface);
+    border-top: 1px solid var(--line);
+    border-radius: 0;
+    box-shadow: 0 -2px 16px rgba(20,24,18,0.07);
+    z-index: 200;
+  }
+
+  /* Hide desktop-only sidebar elements */
   .sidebar .brand,
   .sidebar .nav-label,
-  .sidebar .sidebar-foot { display: none; }
+  .sidebar .sidebar-foot {
+    display: none !important;
+  }
 
+  /* Nav wrapper scrolls horizontally */
   .sidebar-nav-wrapper {
     display: flex;
     flex-direction: row;
     overflow-x: auto;
     overflow-y: hidden;
     flex: 1;
+    min-height: 0;
     scrollbar-width: none;
     -ms-overflow-style: none;
   }
   .sidebar-nav-wrapper::-webkit-scrollbar { display: none; }
 
+  /* Each nav section becomes a horizontal row */
   .sidebar-nav-wrapper > div {
     display: flex;
     flex-direction: row;
     flex-shrink: 0;
   }
 
+  /* Nav lists horizontal */
   .nav-list {
     flex-direction: row !important;
     padding: 0 !important;
     gap: 0 !important;
   }
 
+  /* Nav items: icon + label stacked vertically */
   .nav-item {
     flex-direction: column;
     align-items: center;
     justify-content: center;
     gap: 2px;
-    padding: 6px 10px;
+    padding: 5px 8px 6px;
     border-radius: 10px;
-    min-width: 52px;
+    min-width: 54px;
+    max-width: 80px;
     font-size: 9px;
+    color: var(--ink-3);
   }
-  .nav-item i { font-size: 22px; color: var(--ink-3); }
+  .nav-item i { font-size: 21px; color: var(--ink-3); }
+  .nav-item.active { background: var(--green); color: white; }
   .nav-item.active i { color: white; }
-  .nav-item span { font-size: 9px; line-height: 1; white-space: nowrap; }
+  .nav-item span {
+    font-size: 9px;
+    line-height: 1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 56px;
+    text-align: center;
+  }
   .nav-item .nav-badge { display: none; }
 
-  .page { padding: 16px 16px 88px; }
-
-  .topbar { padding: 0 14px; gap: 8px; height: 56px; }
-  .search { display: none; }
-  .topbar-spacer { flex: 1; }
-  .user-pill .sub { display: none; }
-  .user-pill { padding: 4px 10px 4px 4px; }
-
+  /* --- Page header --- */
   .page-head {
     flex-direction: column;
     align-items: flex-start;
     gap: 10px;
-    margin-bottom: 16px;
+    margin-bottom: 14px;
   }
-  .page-head h1 { font-size: 22px; }
-  .page-head .actions { flex-wrap: wrap; gap: 6px; }
+  .page-head h1 { font-size: 20px; margin-bottom: 3px; }
+  .page-head p { font-size: 12.5px; }
+  .page-head .actions { flex-wrap: wrap; gap: 6px; width: 100%; }
   .page-head .actions .btn-ghost { display: none; }
+  .page-head .actions .btn-primary { flex: 1; justify-content: center; }
 
+  /* --- Grid: everything single column --- */
+  .grid { gap: 12px; }
   .g-2, .g-3, .g-4, .g-5,
   .g-6-6, .g-7-5 {
     grid-template-columns: 1fr !important;
   }
 
-  .kpi-value { font-size: 28px; }
+  /* --- KPI cards: 2 per row --- */
+  .g-4 { grid-template-columns: repeat(2, 1fr) !important; }
+  .kpi-value { font-size: 26px; }
+  .kpi { padding: 14px 16px; }
 
-  .kanban {
-    grid-template-columns: repeat(4, 260px);
+  /* --- Cards --- */
+  .card { padding: 16px; }
+  .card-pad-lg { padding: 16px; }
+
+  /* --- Tables: horizontal scroll within card --- */
+  .card table,
+  table {
+    display: block;
     overflow-x: auto;
-    padding-bottom: 8px;
+    -webkit-overflow-scrolling: touch;
+    white-space: nowrap;
+    max-width: calc(100vw - 56px);
+  }
+  th { padding: 0 10px 10px; font-size: 10px; }
+  td { padding: 10px; font-size: 12px; }
+
+  /* --- Kanban: horizontal scroll --- */
+  .kanban {
+    display: flex;
+    flex-direction: row;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
     gap: 10px;
+    padding-bottom: 8px;
+    align-items: start;
+  }
+  .kcol {
+    flex-shrink: 0;
+    width: 240px;
   }
 
+  /* --- Chat: stacked layout --- */
   .chat {
     grid-template-columns: 1fr;
-    height: auto;
+    grid-template-rows: auto 1fr;
+    height: 520px;
   }
   .chat-list {
     display: flex;
     flex-direction: row;
     overflow-x: auto;
     overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
     border-right: none;
     border-bottom: 1px solid var(--line);
-    height: auto;
+    max-height: 80px;
     scrollbar-width: none;
   }
   .chat-list::-webkit-scrollbar { display: none; }
   .chat-list .search-mini { display: none; }
   .chat-room {
-    min-width: 90px;
+    min-width: 80px;
     flex-shrink: 0;
     border-bottom: none;
     border-right: 1px solid var(--line);
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding: 10px 8px;
-    gap: 4px;
+    padding: 8px 6px;
+    gap: 3px;
   }
   .chat-room .body .last,
-  .chat-room .body .time,
+  .chat-room .body .time { display: none; }
   .chat-room .pill { display: none; }
   .chat-room .body { text-align: center; }
-  .chat-body { height: 280px; }
+  .chat-room .name { font-size: 10.5px; white-space: nowrap; }
+  .chat-body { height: 300px; padding: 14px; }
+  .chat-input { padding: 10px 12px; }
 
-  .card table { display: block; overflow-x: auto; white-space: nowrap; }
+  /* --- Sponsor rows --- */
+  .sponsor-row { gap: 10px; flex-wrap: wrap; }
+  .sponsor-logo { width: 36px; height: 36px; font-size: 11px; }
 
-  .vendor-grid { grid-template-columns: 1fr; }
+  /* --- Vendor grid: single col --- */
+  .vendor-grid { grid-template-columns: 1fr; gap: 12px; }
 
-  .gallery { grid-template-columns: repeat(2, 1fr); }
+  /* --- Gallery: 2 col --- */
+  .gallery { grid-template-columns: repeat(2, 1fr); gap: 8px; }
 
+  /* --- Notif panel --- */
   .notif-panel {
-    left: 12px; right: 12px;
+    left: 10px; right: 10px;
     width: auto;
-    top: 68px;
+    top: 66px;
   }
 
-  .donut-wrap { flex-direction: column; align-items: flex-start; }
+  /* --- Donut chart --- */
+  .donut-wrap { flex-direction: column; align-items: flex-start; gap: 14px; }
 
-  .gantt-row { grid-template-columns: 80px 1fr; }
-  .gantt-label { font-size: 11px; }
+  /* --- Gantt --- */
+  .gantt-row { grid-template-columns: 80px 1fr; gap: 8px; }
+  .gantt-label { font-size: 10.5px; }
+  .gantt-bar { font-size: 9px; padding: 0 6px; }
+
+  /* --- Org chart --- */
+  .org-chart { gap: 12px; }
+  .org-row { gap: 6px; }
+  .org-node { min-width: 90px; padding: 8px 10px; }
+  .org-node .name { font-size: 11px; }
+
+  /* --- Calendar --- */
+  .cal-day { min-height: 54px; padding: 4px; }
+  .cal-day .ev { font-size: 8.5px; padding: 1px 4px; }
+
+  /* --- Approve rows --- */
+  .approve-name { font-size: 12.5px; }
+  .approve-sub { font-size: 11px; }
+
+  /* --- Buttons --- */
+  .btn { padding: 9px 14px; font-size: 12px; }
+  .btn-sm { padding: 6px 10px; font-size: 11px; }
 }
 
 /* ============ Small phones (≤480px) ============ */
 @media (max-width: 480px) {
-  .page-head h1 { font-size: 19px; }
-  .kpi-value { font-size: 24px; }
-  .btn { padding: 9px 14px; font-size: 12px; }
-  .nav-item { min-width: 44px; padding: 6px 6px; }
-  .nav-item i { font-size: 20px; }
+  .page { padding: 12px 12px 88px; }
+  .page-head h1 { font-size: 18px; }
+  .kpi-value { font-size: 22px; }
+  .kpi { padding: 12px 14px; }
+  .nav-item { min-width: 46px; padding: 5px 6px 6px; }
+  .nav-item i { font-size: 19px; }
+  .nav-item span { font-size: 8.5px; }
+  .g-4 { grid-template-columns: repeat(2, 1fr) !important; }
+  table { max-width: calc(100vw - 24px); }
 }
 
 /* ============ LANDING PAGE — Mobile ============ */
