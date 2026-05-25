@@ -29,21 +29,21 @@ const SECTIONS: NavSection[] = [
     label: 'Operasional',
     items: [
       { id: 'komunikasi', icon: 'message-circle', name: 'Komunikasi', badge: '5' },
-      { id: 'task', icon: 'checkbox', name: 'Task & Timeline' },
+      { id: 'task', icon: 'checkbox', name: 'Task' },
       { id: 'keuangan', icon: 'wallet', name: 'Keuangan', badge: '3' },
     ],
   },
   {
     label: 'Resources',
     items: [
-      { id: 'sponsorship', icon: 'building-store', name: 'Sponsorship' },
+      { id: 'sponsorship', icon: 'building-store', name: 'Sponsor' },
       { id: 'vendor', icon: 'truck', name: 'Vendor' },
-      { id: 'dokumentasi', icon: 'photo', name: 'Dokumentasi' },
+      { id: 'dokumentasi', icon: 'photo', name: 'Dokumen' },
     ],
   },
   {
     label: 'Divisi',
-    items: [{ id: 'humas', icon: 'speakerphone', name: 'Humas & Konten' }],
+    items: [{ id: 'humas', icon: 'speakerphone', name: 'Humas' }],
   },
   {
     label: 'Penutup',
@@ -67,7 +67,7 @@ export function Sidebar({ current, go }: SidebarProps) {
         </div>
       </div>
 
-      <div style={{ flex: 1, overflowY: 'auto', minHeight: 0 }}>
+      <div className="sidebar-nav-wrapper">
         {SECTIONS.map((sec) => (
           <div key={sec.label}>
             <div className="nav-label">{sec.label}</div>
